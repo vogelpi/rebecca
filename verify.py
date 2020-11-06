@@ -12,6 +12,7 @@ from IndepChecker import IndepChecker
 from sys import setrecursionlimit
 from multiprocessing import Pool
 from logger import logger
+import time
 
 setrecursionlimit(10000)
 
@@ -56,6 +57,7 @@ if __name__ == '__main__':
 	parser.add_argument('-i', '--independence-check', nargs=3, metavar=('<netlist>', '<order>', '<labeling>'),
 		help='check if a parsed netlist <netlist> is <order>-order independent with the <labeling> as initial labeling')
 	args = vars(parser.parse_args())
+	start = time.time()
 	if args['parse_verilog']:
 		netlist = args['parse_verilog'][0]
 		check_file(netlist, '.v', 'netlist')
@@ -112,3 +114,5 @@ if __name__ == '__main__':
 				print(r)
 				exit()
 		print((True, []))
+		elapsed = int(time.time() - start)
+		print('Time taken: {:02d}:{:02d}:{:02d}'.format(elapsed // 3600, (elapsed % 3600 // 60), elapsed % 60))
